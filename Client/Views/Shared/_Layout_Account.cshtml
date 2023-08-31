@@ -1,0 +1,61 @@
+﻿@using Shared;
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Html
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var identity = User.Identity as ClaimsIdentity;
+    var identityClaims = identity?.Claims.ToList();
+
+    var currentUsername = identityClaims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Match Project</title>
+    <link rel="stylesheet" href="~/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/css/vendor.bundle.addons.css">
+    <link rel="stylesheet" href="~/css/style.css">
+
+  @*  
+   // <link rel="shortcut icon" href="../../../../images/favicon.png" />*@
+</head>
+<body class="sidebar-mini">
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
+                <div class="row flex-grow">
+                    @RenderBody()
+                <div class="col-lg-6 login-half-bg d-flex flex-row">
+                    <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; @DateTime.Now.Date.Year  All rights reserved.</p>
+                </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+   
+    <script src="~/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/vendors/js/vendor.bundle.addons.js"></script>
+   
+    <script src="~/js/off-canvas.js"></script>
+    <script src="~/js/hoverable-collapse.js"></script>
+    <script src="~/js/template.js"></script>
+    <script src="~/js/settings.js"></script>
+    <script src="~/js/todolist.js"></script>
+
+    @await Component.InvokeAsync("NToastNotify")
+
+
+</body>
+</html>
+
